@@ -1,8 +1,11 @@
 import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:pass@localhost:3306/devmarket_db")
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://user:password@localhost:3306/db_name")
 
 engine = create_engine(
     DATABASE_URL, 
