@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status
 from src.infrastructure.repositories.user_repository import UserRepository
-from src.domain.schemas.user_schema import UserUpdate
+from src.interfaces.schemas.user_schema import UserUpdate
 from src.infrastructure.database.models import UserModel
 
 class UpdateUserUseCase:

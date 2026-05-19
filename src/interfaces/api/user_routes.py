@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from src.config.database import get_db
-from src.domain.schemas.user_schema import *
+from src.infrastructure.database.database import get_db
+from src.interfaces.schemas.user_schema import *
 from src.infrastructure.repositories.user_repository import UserRepository
-from src.domain.use_cases.register_user import RegisterUserUseCase
-from src.domain.use_cases.get_user import GetUserUseCase
-from src.domain.use_cases.update_user import UpdateUserUseCase
-from src.domain.use_cases.delete_user import DeleteUserUseCase
+from src.core.use_cases.register_user import RegisterUserUseCase
+from src.core.use_cases.get_user import GetUserUseCase
+from src.core.use_cases.update_user import UpdateUserUseCase
+from src.core.use_cases.delete_user import DeleteUserUseCase
 
 router = APIRouter(prefix="/users", tags=["Users"])
 

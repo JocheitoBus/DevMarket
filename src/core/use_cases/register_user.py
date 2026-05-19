@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
-from src.domain.schemas.user_schema import UserCreate
+from src.interfaces.schemas.user_schema import UserCreate
 from src.infrastructure.repositories.user_repository import UserRepository
-from src.core.security.password import PasswordService
+from src.infrastructure.security.password import PasswordService
 from src.infrastructure.database.models import UserModel
 
 class RegisterUserUseCase:
