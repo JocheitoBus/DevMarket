@@ -8,6 +8,8 @@ from src.core.use_cases.register_user import RegisterUserUseCase
 from src.core.use_cases.get_user import GetUserUseCase
 from src.core.use_cases.update_user import UpdateUserUseCase
 from src.core.use_cases.delete_user import DeleteUserUseCase
+from src.interfaces.middlewares.auth_bearer import get_current_user
+from src.infrastructure.database.models import UserModel
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -28,17 +30,26 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
     return get_user_use_case.execute(user_id)
 
 @router.patch("/{user_id}", response_model=UserResponse)
-def update_user(user_id: int, update_data: UserUpdate, db: Session = Depends(get_db)):
+def update_user(
+    user_id: int,
+    update_data: UserUpdate, 
+    current_user: UserModel = Depends(get_current_user),
+    db: Session = Depends(get_db)
+    ):
     """Actualiza la informacion de un usuario especifico por su ID con campos opcionales"""
     user_repository = UserRepository(db)
     update_user_use_case = UpdateUserUseCase(user_repository)
 
-    return update_user_use_case.execute(user_id,update_data)
+    return update_user_use_case.execute(user_id, current_user, update_data)
 
 @router.post("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_user(user_id: int, user_password: UserDelete, db: Session = Depends(get_db)):
+def delete_user(
+    user_id: int, user_password: UserDelete, 
+    current_user: UserModel = Depends(get_current_user),  
+    db: Session = Depends(get_db)
+    ):
     """Eliminar un usuario utilizando la contraseña"""
     user_repository = UserRepository(db)
     delete_user_use_case = DeleteUserUseCase(user_repository)
 
-    return delete_user_use_case.execute(user_id,user_password)
+    return delete_user_use_case.execute(current_user,user_id,user_password)

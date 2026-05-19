@@ -2,12 +2,13 @@ from fastapi import HTTPException, status
 from src.interfaces.schemas.user_schema import UserDelete
 from src.infrastructure.security.password import PasswordService
 from src.infrastructure.repositories.user_repository import UserRepository
+from src.infrastructure.database.models import UserModel
 
 class DeleteUserUseCase:
     def __init__(self, user_repo: UserRepository):
         self.user_repo = user_repo
 
-    def execute(self, user_id: int, user_delete: UserDelete):
+    def execute(self,current_user: UserModel, user_id: int, user_delete: UserDelete):
         user = self.user_repo.get_by_id(user_id)
 
         if not user:
@@ -22,4 +23,11 @@ class DeleteUserUseCase:
                 detail="Contraseña incorrecta."
             )
         
+        if user.id != current_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="No tienes permiso para eliminar esta cuenta."
+            )
+        
         self.user_repo.delete_user(user)
+

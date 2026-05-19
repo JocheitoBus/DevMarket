@@ -1,7 +1,8 @@
-from jose import jwt
+from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 from src.config.settings import settings
+
 
 SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = settings.ALGORITHM
@@ -25,3 +26,15 @@ class JWTService:
         encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
         
         return encoded_jwt
+    
+    @staticmethod
+    def decode_access_token(token: str) -> Optional[dict]:
+        """
+        Abre el token, verifica la firma con la SECRET_KEY y devuelve el diccionario (payload).
+        Si el token expiró o la firma es falsa, lanza un error o devuelve None.
+        """
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            return payload
+        except JWTError:
+            return None

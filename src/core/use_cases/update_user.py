@@ -7,7 +7,7 @@ class UpdateUserUseCase:
     def __init__(self, user_repo: UserRepository):
         self.user_repo = user_repo
 
-    def execute(self, user_id: int, update_data: UserUpdate) -> UserModel:
+    def execute(self, user_id: int, current_user: UserModel, update_data: UserUpdate) -> UserModel:
         user = self.user_repo.get_by_id(user_id)
         dict_data = update_data.model_dump(exclude_unset=True)
         
@@ -44,5 +44,11 @@ class UpdateUserUseCase:
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail="Correo electronico siendo usado por otro usuario."
                 )
+
+        if user.id != current_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="No tienes permiso para modificar esta cuenta."
+            )
 
         return self.user_repo.update(user,dict_data)
