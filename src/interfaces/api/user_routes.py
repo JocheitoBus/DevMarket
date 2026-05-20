@@ -4,10 +4,10 @@ from sqlalchemy.orm import Session
 from src.infrastructure.database.database import get_db
 from src.interfaces.schemas.user_schema import *
 from src.infrastructure.repositories.user_repository import UserRepository
-from src.core.use_cases.register_user import RegisterUserUseCase
-from src.core.use_cases.get_user import GetUserUseCase
-from src.core.use_cases.update_user import UpdateUserUseCase
-from src.core.use_cases.delete_user import DeleteUserUseCase
+from src.core.use_cases.user_use_cases.register_user import RegisterUserUseCase
+from src.core.use_cases.user_use_cases.get_user import GetUserUseCase
+from src.core.use_cases.user_use_cases.update_user import UpdateUserUseCase
+from src.core.use_cases.user_use_cases.delete_user import DeleteUserUseCase
 from src.interfaces.middlewares.auth_bearer import get_current_user
 from src.infrastructure.database.models import UserModel
 

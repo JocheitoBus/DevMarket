@@ -3,10 +3,8 @@ from sqlalchemy.orm import Session
 
 from src.infrastructure.database.database import get_db
 from src.infrastructure.repositories.user_repository import UserRepository
-from src.core.use_cases.login_user import LoginUserUseCase
+from src.core.use_cases.user_use_cases.login_user import LoginUserUseCase
 from src.interfaces.schemas.auth_schema import UserLoginRequest
-
-from src.core.use_cases.login_user import LoginUserUseCase
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
