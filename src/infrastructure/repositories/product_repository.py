@@ -45,7 +45,16 @@ class ProductRepository:
         self.db.commit()
         self.db.refresh(db_product)
         return db_product
-    
+
+    def update(self, db_product: ProductModel, update_data: dict) -> ProductModel:
+        """Actualiza un producto en la base de datos por su id"""
+        for key, value in update_data.items():
+            setattr(db_product, key, value)
+
+        self.db.commit()
+        self.db.refresh(db_product)
+        return db_product
+
     def delete(self, product_id: int) -> bool:
         """Elimina un producto por su ID. Devuelve True si lo borró, False si no existía."""
         product = self.get_by_id(product_id)

@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from typing import Optional
 
 class ProductBase(BaseModel):
     title : str = Field(..., min_length=2, max_length=50, description="Nombre del producto")
@@ -8,16 +9,15 @@ class ProductBase(BaseModel):
 class ProductCreate(ProductBase):
     pass
 
+class ProductUpdate(ProductBase):
+    title : Optional[str] = None
+    description : Optional[str] = None
+    price : Optional[float] = None
+    
+
 class ProductResponse(ProductBase):
     id: int
     user_id: int
-
-    class Config:
-        from_attributes = True
-
-class Page:
-    skip : int = 0
-    limit : int = 100
 
     class Config:
         from_attributes = True
