@@ -8,6 +8,11 @@ class OrderRepository:
         self.db = db
         self.product_repo = product_repository
 
+    def get_by_id(self, order_id : int) -> OrderModel | None:
+        """Busca una orden por su ID único."""
+        order = self.db.query(OrderModel).filter(OrderModel.id == order_id).first()
+        return order
+    
     def create_order(self, order_data: OrderCreate, user_id: int) -> OrderModel:
         """
         Registra una orden completa en la base de datos calculando los precios reales
@@ -19,7 +24,6 @@ class OrderRepository:
                 total_price=0.0,
                 status="pending"
             )
-
 
             self.db.add(db_order)
             self.db.flush() 
@@ -50,3 +54,11 @@ class OrderRepository:
         except Exception as e:
             self.db.rollback()
             raise e
+        
+    def update_status(self, status_data: str, order_id: int) -> OrderModel:
+        db_order = self.get_by_id(order_id)
+        if db_order:
+            db_order.status = status_data
+            self.db.commit()
+            self.db.refresh(db_order)
+        return db_order

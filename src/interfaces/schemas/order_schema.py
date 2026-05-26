@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import List
 from pydantic import BaseModel, Field
+from typing import Literal
 
 class OrderItemCreate(BaseModel):
     product_id: int = Field(..., description="ID del producto que se va a comprar")
@@ -32,3 +33,9 @@ class OrderResponse(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+class OrderUpdateStatus(BaseModel):
+    status: Literal["completed", "cancelled"] = Field(
+        ..., 
+        description="El nuevo estado de la orden: 'completed' o 'cancelled'"
+    )
