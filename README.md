@@ -58,3 +58,14 @@ devmarket_backend/
 │       └── schemas/             # Esquemas de Pydantic para Request/Response
 ├── main.py                      # Punto de entrada de la aplicación FastAPI
 └── requirements.txt             # Dependencias del proyecto
+
+--- 
+
+```markdown
+## 🚀 Instalación y Uso
+
+1. Instala las dependencias: `pip install -r requirements.txt`
+2. Configura tu archivo `.env` basándote en `.env.example`
+3. Genera datos de prueba automáticamente:
+   ```bash
+   python seed.py
