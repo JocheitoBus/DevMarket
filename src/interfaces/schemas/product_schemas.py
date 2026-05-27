@@ -3,7 +3,7 @@ from typing import Optional
 
 class ProductBase(BaseModel):
     title : str = Field(..., min_length=2, max_length=50, description="Nombre del producto")
-    description : str = Field(..., min_length=2, max_length=50, description="Descripcion del producto")
+    description : str = Field(..., min_length=2, max_length=300, description="Descripcion del producto")
     price : float = Field(...,gt=0,description="Precio (Mayor a cero)")
 
 class ProductCreate(ProductBase):

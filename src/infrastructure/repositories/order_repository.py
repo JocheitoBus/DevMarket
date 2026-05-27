@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from typing import List
 from src.infrastructure.database.models import OrderModel, OrderItemModel
 from src.infrastructure.repositories.product_repository import ProductRepository
 from src.interfaces.schemas.order_schema import OrderCreate
@@ -13,6 +14,11 @@ class OrderRepository:
         order = self.db.query(OrderModel).filter(OrderModel.id == order_id).first()
         return order
     
+    def get_by_user(self, user_id : int) -> List[OrderModel]:
+        """Busca el historial de compras de un usuario por su ID"""
+        orders = self.db.query(OrderModel).filter(OrderModel.user_id == user_id).all()
+        return orders
+
     def create_order(self, order_data: OrderCreate, user_id: int) -> OrderModel:
         """
         Registra una orden completa en la base de datos calculando los precios reales
